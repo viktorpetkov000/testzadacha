@@ -1,6 +1,6 @@
 <script>
-  let total = 33843.55;
-  let clear = 2100.00;
+  let total = 5000;
+  let clear = 0;
   let idx = 0;
   let rowid = 0;
   let rowDt = " ";
@@ -12,29 +12,43 @@
     this.typ = typ;
   }
 
-  function Data(clr, opn, dt) {
+  function Data(clr, opn, dt, wto) {
     this.clr = clr;
     this.opn = opn;
     this.dt = dt;
+    this.wto = wto;
   }
 
   let rows = [];
   let datas = [];
   datas.push(new Data(0,0," "));
   function init() {
-    rows.push(new Row(29.55,0,"29/12/2022",1));
-    rows.push(new Row(29.55,0,"29/12/2022",1));
-    rows.push(new Row(320.45,0,"29/12/2022",1));
-    rows.push(new Row(320.45,0,"30/11/2022",1));
-    rows.push(new Row(29.55,0,"30/11/2022",1));
-    rows.push(new Row(29.55,0,"29/10/2022",1));
-    rows.push(new Row(320.45,0,"29/10/2022",1));
-    rows.push(new Row(320.45,0,"29/09/2022",1))
-    rows.push(new Row(29.55,0,"29/09/2022",1))
-    rows.push(new Row(29.55,0,"31/08/2022",1))
-    rows.push(new Row(320.45,0,"31/08/2022",1))
-    rows.push(new Row(320.45,0,"29/07/2022",1))
-    rows.push(new Row(29.55,0,"29/07/2022",1))
+    //rows.push(new Row(29.55,0,"29/12/2022",1));
+    //rows.push(new Row(29.55,0,"29/12/2022",1));
+    //rows.push(new Row(320.45,0,"29/12/2022",1));
+    //rows.push(new Row(320.45,0,"30/11/2022",1));
+    //rows.push(new Row(29.55,0,"30/11/2022",1));
+    //rows.push(new Row(29.55,0,"29/10/2022",1));
+    //rows.push(new Row(320.45,0,"29/10/2022",1));
+    //rows.push(new Row(320.45,0,"29/09/2022",1))
+    //rows.push(new Row(29.55,0,"29/09/2022",1))
+    //rows.push(new Row(29.55,0,"31/08/2022",1))
+    //rows.push(new Row(320.45,0,"31/08/2022",1))
+    //rows.push(new Row(320.45,0,"29/07/2022",1))
+    //rows.push(new Row(29.55,0,"29/07/2022",1))
+    rows.push(new Row(0,0," ",0));
+    rows.push(new Row(2250,0,"25/01/2023",2));
+    rows.push(new Row(2250,0,"25/01/2023",2));
+    rows.push(new Row(50,0,"25/01/2023",1));
+    rows.push(new Row(50,0,"25/01/2023",1));
+    rows.push(new Row(50,0,"01/08/2022",1));
+    rows.push(new Row(50,0,"01/08/2022",1));
+    rows.push(new Row(50,0,"01/07/2022",1));
+    rows.push(new Row(50,0,"01/07/2022",1));
+    rows.push(new Row(50,0,"01/06/2022",1));
+    rows.push(new Row(50,0,"01/06/2022",1));
+    rows.push(new Row(50,0,"01/05/2022",1));
+    rows.push(new Row(50,0,"01/05/2022",1));
   }
 
   function getRow() {
@@ -48,22 +62,37 @@
       console.log("first");
       idx++;
       datas.push(new Data(0,0," "));
+      datas[idx].wto = 0;
       if (idx == 1)
         datas[idx].opn = total - clear;
       else
         datas[idx].opn = datas[idx-1].opn;
-      datas[idx].clr = rows[rowid].htr;
+      if (rows[rowid].typ == 1)
+        datas[idx].clr = rows[rowid].htr;
+      else
+        datas[idx].wto = rows[rowid].htr;
+
     } else {
       if (rows[rowid].dt == rowDt || rows[rowid].typ == rowTyp) {
-        console.log("second");
-          datas[idx].clr += rows[rowid].htr;
-        if (idx != "1") {
-          console.log("third");
-          datas[idx].opn += datas[idx].clr;
+        if (rows[rowid].typ == 1) {
+          console.log("second");
+            datas[idx].clr += rows[rowid].htr;
+          if (idx != "1") {
+            console.log("third");
+            datas[idx].opn += datas[idx].clr;
+          }
+        } else {
+            console.log("fourth");
+            datas[idx].wto += rows[rowid].htr;
+          if (idx != "1") {
+            console.log("fifth");
+            datas[idx].opn += datas[idx].clr;
+          }
         }
       }
     }
     console.log(datas[idx]);
+    datas[idx].dt = rows[rowid].dt;
     rowDt = rows[rowid].dt;
     rowTyp = rows[rowid].typ;
   }
@@ -82,6 +111,8 @@
         <tr>
           <th>Clear</th>
           <th>Open</th>
+          <th>Write off</th>
+          <th>Date</th>
         </tr>
       </thead>
       <tbody>
@@ -94,8 +125,12 @@
       let row = table.insertRow(i);
       let cell1 = row.insertCell(0);
       let cell2 = row.insertCell(1);
+      let cell3 = row.insertCell(2);
+      let cell4 = row.insertCell(3);
       cell1.innerHTML = datas[i+1].clr;
       cell2.innerHTML = datas[i+1].opn;
+      cell3.innerHTML = datas[i+1].wto;
+      cell4.innerHTML = datas[i+1].dt;
     }
   }
 </script>
