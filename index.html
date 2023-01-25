@@ -1,0 +1,105 @@
+<script>
+  let total = 33843.55;
+  let clear = 2100.00;
+  let idx = 0;
+  let rowid = 0;
+  let rowDt = " ";
+  let rowTyp = " ";
+  function Row(htr, a, dt, typ) {
+    this.htr = htr;
+    this.a = a;
+    this.dt = dt;
+    this.typ = typ;
+  }
+
+  function Data(clr, opn, dt) {
+    this.clr = clr;
+    this.opn = opn;
+    this.dt = dt;
+  }
+
+  let rows = [];
+  let datas = [];
+  datas.push(new Data(0,0," "));
+  function init() {
+    rows.push(new Row(29.55,0,"29/12/2022",1));
+    rows.push(new Row(29.55,0,"29/12/2022",1));
+    rows.push(new Row(320.45,0,"29/12/2022",1));
+    rows.push(new Row(320.45,0,"30/11/2022",1));
+    rows.push(new Row(29.55,0,"30/11/2022",1));
+    rows.push(new Row(29.55,0,"29/10/2022",1));
+    rows.push(new Row(320.45,0,"29/10/2022",1));
+    rows.push(new Row(320.45,0,"29/09/2022",1))
+    rows.push(new Row(29.55,0,"29/09/2022",1))
+    rows.push(new Row(29.55,0,"31/08/2022",1))
+    rows.push(new Row(320.45,0,"31/08/2022",1))
+    rows.push(new Row(320.45,0,"29/07/2022",1))
+    rows.push(new Row(29.55,0,"29/07/2022",1))
+  }
+
+  function getRow() {
+    for (i = 1; i < rows.length; i++)
+      fill(i);
+  }
+
+  function fill(rowid) {
+    console.log(rows[rowid]);
+    if (rows[rowid].dt != rowDt || rows[rowid].typ != rowTyp) {
+      console.log("first");
+      idx++;
+      datas.push(new Data(0,0," "));
+      if (idx == 1)
+        datas[idx].opn = total - clear;
+      else
+        datas[idx].opn = datas[idx-1].opn;
+      datas[idx].clr = rows[rowid].htr;
+    } else {
+      if (rows[rowid].dt == rowDt || rows[rowid].typ == rowTyp) {
+        console.log("second");
+          datas[idx].clr += rows[rowid].htr;
+        if (idx != "1") {
+          console.log("third");
+          datas[idx].opn += datas[idx].clr;
+        }
+      }
+    }
+    console.log(datas[idx]);
+    rowDt = rows[rowid].dt;
+    rowTyp = rows[rowid].typ;
+  }
+
+  function print() {
+    for (i = 1; i < datas.length; i++)
+      console.log(datas[i]);
+  }
+
+  function generateTable() {
+    init();
+    getRow();
+    document.getElementById("table").innerHTML+=`
+    <table id="myTable">
+      <thead>
+        <tr>
+          <th>Clear</th>
+          <th>Open</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>`
+
+    var table = document.getElementById("myTable").getElementsByTagName('tbody')[0];
+
+    for (var i = 0; i < datas.length-1; i++) {
+      let row = table.insertRow(i);
+      let cell1 = row.insertCell(0);
+      let cell2 = row.insertCell(1);
+      cell1.innerHTML = datas[i+1].clr;
+      cell2.innerHTML = datas[i+1].opn;
+    }
+  }
+</script>
+<body>
+    <button onClick="generateTable()">Generate Table</button>
+    <div id="table"></div>
+</body>
