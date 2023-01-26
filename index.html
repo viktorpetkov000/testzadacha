@@ -1,6 +1,6 @@
 <script>
   let total = 5000;
-  let clear = 0;
+  let clear = 5000;
   let idx = 0;
   let rowid = 0;
   let rowDt = " ";
@@ -23,24 +23,24 @@
   let datas = [];
   datas.push(new Data(0,0," "));
   function init() {
-    //rows.push(new Row(29.55,0,"29/12/2022",1));
-    //rows.push(new Row(29.55,0,"29/12/2022",1));
-    //rows.push(new Row(320.45,0,"29/12/2022",1));
-    //rows.push(new Row(320.45,0,"30/11/2022",1));
-    //rows.push(new Row(29.55,0,"30/11/2022",1));
-    //rows.push(new Row(29.55,0,"29/10/2022",1));
-    //rows.push(new Row(320.45,0,"29/10/2022",1));
-    //rows.push(new Row(320.45,0,"29/09/2022",1))
-    //rows.push(new Row(29.55,0,"29/09/2022",1))
-    //rows.push(new Row(29.55,0,"31/08/2022",1))
-    //rows.push(new Row(320.45,0,"31/08/2022",1))
-    //rows.push(new Row(320.45,0,"29/07/2022",1))
-    //rows.push(new Row(29.55,0,"29/07/2022",1))
+    // rows.push(new Row(29.55,0,"29/12/2022",1));
+    // rows.push(new Row(29.55,0,"29/12/2022",1));
+    // rows.push(new Row(320.45,0,"29/12/2022",1));
+    // rows.push(new Row(320.45,0,"30/11/2022",1));
+    // rows.push(new Row(29.55,0,"30/11/2022",1));
+    // rows.push(new Row(29.55,0,"29/10/2022",1));
+    // rows.push(new Row(320.45,0,"29/10/2022",1));
+    // rows.push(new Row(320.45,0,"29/09/2022",1))
+    // rows.push(new Row(29.55,0,"29/09/2022",1))
+    // rows.push(new Row(29.55,0,"31/08/2022",1))
+    // rows.push(new Row(320.45,0,"31/08/2022",1))
+    // rows.push(new Row(320.45,0,"29/07/2022",1))
+    // rows.push(new Row(29.55,0,"29/07/2022",1))
     rows.push(new Row(0,0," ",0));
     rows.push(new Row(2250,0,"25/01/2023",2));
     rows.push(new Row(2250,0,"25/01/2023",2));
-    rows.push(new Row(50,0,"25/01/2023",1));
-    rows.push(new Row(50,0,"25/01/2023",1));
+    rows.push(new Row(50,0,"24/01/2023",1));
+    rows.push(new Row(50,0,"24/01/2023",1));
     rows.push(new Row(50,0,"01/08/2022",1));
     rows.push(new Row(50,0,"01/08/2022",1));
     rows.push(new Row(50,0,"01/07/2022",1));
@@ -77,17 +77,13 @@
         if (rows[rowid].typ == 1) {
           console.log("second");
             datas[idx].clr += rows[rowid].htr;
-          if (idx != "1") {
-            console.log("third");
-            datas[idx].opn += datas[idx].clr;
-          }
         } else {
             console.log("fourth");
             datas[idx].wto += rows[rowid].htr;
-          if (idx != "1") {
-            console.log("fifth");
-            datas[idx].opn += datas[idx].clr;
-          }
+        }
+        if (idx != "1") {
+          console.log("third");
+          datas[idx].opn += datas[idx-1].wto + datas[idx-1].clr;
         }
       }
     }
